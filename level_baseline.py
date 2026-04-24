@@ -37,7 +37,7 @@ for _, row in osm_df.iterrows():
         cash += bid
         trade_log.append([ts, OSM, "SELL", bid, 1])
 
-# ── PEPPER: just buy and hold ─────────────────────────────────────
+# ── PEPPER: just buy and hold ─────
 for _, row in pep_df.iterrows():
     ts  = row["timestamp"]
     ask = float(row["ask_price_1"])
@@ -48,7 +48,7 @@ for _, row in pep_df.iterrows():
         cash -= ask
         trade_log.append([ts, PEP, "BUY", ask, 1])
 
-# ── Results ───────────────────────────────────────────────────────
+# ── Results ──────
 last_prices = df.groupby("product")["mid_price"].last()
 portfolio_value = cash
 for p in position:
