@@ -21,7 +21,7 @@ position = {OSM: 0, PEP: 0}
 cash      = 0.0
 trade_log = []
 
-# ── OSMIUM: z-score + inventory skew ─────────────────────────────
+# ── OSMIUM: z-score + inventory skew ───────
 osm_mids = []
 
 for _, row in osm_df.iterrows():
@@ -64,7 +64,7 @@ for _, row in osm_df.iterrows():
         cash += bid * qty
         trade_log.append([ts, OSM, "SELL", bid, qty])
 
-# ── PEPPER: OLS trend + dip entry + spike exit ───────────────────
+# ── PEPPER: OLS trend + dip entry + spike exit ─────
 pep_px   = []
 pep_ts   = []
 tot_cost = 0.0
@@ -112,7 +112,7 @@ for _, row in pep_df.iterrows():
             tot_qty  -= qty
             trade_log.append([ts, PEP, "SELL", bid, qty])
 
-# ── Results ───────────────────────────────────────────────────────
+# ── Results ──────
 last_prices = df.groupby("product")["mid_price"].last()
 portfolio_value = cash
 for p in position:
