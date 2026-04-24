@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 
-# ── Data ──────────────────────────────────────────────────────────
+# ── Data ───────
 days        = ["Day -1", "Day 0", "Day -2"]
 osm_pnl     = [1035,     1108,    471]
 pep_pnl     = [34685,    34760,   34822]
@@ -16,7 +16,7 @@ avg_total   = round(sum(total_pnl) / 3)
 avg_osm     = round(sum(osm_pnl)   / 3)
 avg_pep     = round(sum(pep_pnl)   / 3)
 
-# ── Colors ────────────────────────────────────────────────────────
+# ── Colors ──────
 C_TEAL   = "#1D9E75"
 C_PURPLE = "#7F77DD"
 C_AMBER  = "#BA7517"
@@ -33,9 +33,7 @@ fig.suptitle(
 x     = np.arange(len(days))
 width = 0.28
 
-# ================================================================
 # CHART 1: Stacked PnL by product
-# ================================================================
 ax1 = fig.add_subplot(2, 2, 1, facecolor=C_BG)
 ax1.bar(x, pep_pnl, width * 2.2, label="PEPPER PnL", color=C_TEAL,   alpha=0.85)
 ax1.bar(x, osm_pnl, width * 2.2, label="OSMIUM PnL", color=C_AMBER,  alpha=0.85,
@@ -60,9 +58,7 @@ ax1.spines[["top","right"]].set_visible(False)
 ax1.set_facecolor(C_BG)
 ax1.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{int(v):,}"))
 
-# ================================================================
 # CHART 2: Total PnL line across days
-# ================================================================
 ax2 = fig.add_subplot(2, 2, 2, facecolor=C_BG)
 ax2.plot(days, total_pnl, marker="o", linewidth=2.5,
          color=C_TEAL, markersize=8, label="Total PnL")
@@ -82,10 +78,8 @@ ax2.legend(fontsize=8)
 ax2.spines[["top","right"]].set_visible(False)
 ax2.set_facecolor(C_BG)
 ax2.yaxis.set_major_formatter(plt.FuncFormatter(lambda v, _: f"{int(v):,}"))
-
-# ================================================================
 # CHART 3: Trade count comparison
-# ================================================================
+
 ax3 = fig.add_subplot(2, 2, 3, facecolor=C_BG)
 b1 = ax3.bar(x - width/2, osm_trades, width, label="OSMIUM trades",
              color=C_AMBER, alpha=0.85)
@@ -110,9 +104,9 @@ ax3.legend(fontsize=8)
 ax3.spines[["top","right"]].set_visible(False)
 ax3.set_facecolor(C_BG)
 
-# ================================================================
+
 # CHART 4: Summary comparison table
-# ================================================================
+
 ax4 = fig.add_subplot(2, 2, 4, facecolor=C_BG)
 ax4.axis("off")
 
@@ -155,7 +149,7 @@ for j in range(5):
 
 ax4.set_title("Full comparison table", fontsize=11, pad=8)
 
-# ── Layout & save ─────────────────────────────────────────────────
+# ── Layout & save ───────
 plt.tight_layout(rect=[0, 0, 1, 0.95])
 plt.savefig("backtest_comparison.png", dpi=150,
             bbox_inches="tight", facecolor=C_BG)
