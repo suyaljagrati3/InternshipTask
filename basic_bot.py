@@ -44,12 +44,10 @@ def run_strategy(csv_path: str) -> dict:
     cash      = 0.0
     trade_log = []
 
-    # ── last timestamp in file ───────────────────────────────────
+    # ── last timestamp in file ───
     max_ts = float(df["timestamp"].max())
 
-    # ================================================================
     # OSMIUM
-    # ================================================================
     for _, row in osm_df.iterrows():
         ts  = float(row["timestamp"])
         bid = float(row["bid_price_1"])
@@ -57,7 +55,7 @@ def run_strategy(csv_path: str) -> dict:
         pos = position[OSM]
         lim = LIMITS[OSM]
 
-        # ── 🔥 UPGRADE 1: end-of-day position close ─────────────
+        # ── UPGRADE 1: end-of-day position close ──
         if ts >= CLOSE_START:
             if pos > 0 and bid > 0:
                 # Sell everything we own
@@ -102,9 +100,8 @@ def run_strategy(csv_path: str) -> dict:
             cash += bid * qty
             trade_log.append([ts, OSM, "SELL", bid, qty])
 
-    # ================================================================
-    # PEPPER  🔥 UPGRADE 3: tiered profit-booking + end-of-day close
-    # ================================================================
+    # PEPPER   UPGRADE 3: tiered profit-booking + end-of-day close
+ 
     pep_window_px = []
     pep_window_ts = []
     total_cost  = 0.0
@@ -119,7 +116,7 @@ def run_strategy(csv_path: str) -> dict:
         if mid < 5000:
             continue
 
-        # ── 🔥 UPGRADE 1: end-of-day close for PEP ──────────────
+        # ──  UPGRADE 1: end-of-day close for PEP ────
         if ts >= CLOSE_START:
             pos = position[PEP]
             if pos > 0 and bid > 0:
@@ -157,7 +154,7 @@ def run_strategy(csv_path: str) -> dict:
             total_units   += qty
             trade_log.append([ts, PEP, "BUY", ask, qty])
 
-        # ── 🔥 UPGRADE 3: tiered profit-booking ─────────────────
+        # ──  UPGRADE 3: tiered profit-booking ───
         # Tier 1 — moderate gain: sell small chunk (no MIN_HOLD floor)
         elif (bid >= fair + TAKE_PROFIT
               and pos > 5
@@ -181,9 +178,8 @@ def run_strategy(csv_path: str) -> dict:
                 total_units   -= qty
                 trade_log.append([ts, PEP, "SELL", bid, qty])
 
-    # ================================================================
     # MARK TO MARKET
-    # ================================================================
+
     last_prices     = df.groupby("product")["mid_price"].last()
     portfolio_value = cash
     for p in position:
@@ -258,9 +254,8 @@ def print_results(r: dict):
     print(f"  Final PEP pos : {position[PEP]}  (target: ~0 after close)")
 
 
-# ================================================================
-# 🔥 UPGRADE 2 — Multi-day test: auto-discover all CSV files
-# ================================================================
+#  UPGRADE 2 — Multi-day test: auto-discover all CSV files
+
 if __name__ == "__main__":
     # Adjust this glob to wherever your CSVs live
     search_dirs = [
@@ -292,7 +287,7 @@ if __name__ == "__main__":
             print("=" * 60)
             for path, pv in zip(csv_files, all_pnl):
                 tag = os.path.basename(path)
-                status = "✅ PROFIT" if pv > 0 else "❌ LOSS"
+                status = "PROFIT" if pv > 0 else "LOSS"
                 print(f"  {tag:45s}  {pv:>12,.2f}  {status}")
             print(f"\n  Profitable on {sum(p > 0 for p in all_pnl)}/{len(all_pnl)} days")
             print(f"  Average PnL : {np.mean(all_pnl):,.2f}")
