@@ -88,7 +88,7 @@ for _, row in pep_df.iterrows():
         cash += bid * qty
         trade_log.append([ts, PEP, "SELL", bid, qty])
 
-# ── Results ───────────────────────────────────────────────────────
+# ── Results ────
 last_prices = df.groupby("product")["mid_price"].last()
 portfolio_value = cash
 for p in position:
