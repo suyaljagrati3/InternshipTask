@@ -1,5 +1,5 @@
 # local_runner.py
-# Run this to test submit.py locally against your CSV data
+# Running  this to test submit.py locally against  CSV data
 
 import pandas as pd
 from datamodel import TradingState, OrderDepth, Trade, Observation
